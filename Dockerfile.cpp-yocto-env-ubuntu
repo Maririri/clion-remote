@@ -1,0 +1,37 @@
+# Build and run:
+#   docker build -t clion/ubuntu/cpp-yocto-env:1.0 -f Dockerfile.cpp-yocto-env-ubuntu .
+
+FROM ubuntu:20.04
+
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get -y install tzdata
+
+RUN apt-get update \
+  && apt-get install -y build-essential \
+      gcc \
+      g++ \
+      gdb \
+      clang \
+      cmake \
+      rsync \
+      tar \
+      python \
+      python-dev \
+      wget locales diffstat gawk cpio iproute2 iputils-ping openssh-client\
+  && apt-get clean
+
+# Set the locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# Add user for Yocto installation
+RUN groupadd -r user -g 1000 && useradd -u 1000 -r -g user -m -d /user -s /sbin/nologin -c "User" user && \
+    chmod 755 /user
+WORKDIR /user
+USER user
+
+# Install Yocto SDK
+RUN wget http://downloads.yoctoproject.org/releases/yocto/yocto-3.3.2/toolchain/x86_64/poky-glibc-x86_64-core-image-sato-cortexa57-qemuarm64-toolchain-ext-3.3.2.sh \
+    && sh poky-glibc-x86_64-core-image-sato-cortexa57-qemuarm64-toolchain-ext-3.3.2.sh -y
