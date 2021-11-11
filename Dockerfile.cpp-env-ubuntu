@@ -13,6 +13,7 @@ RUN apt-get update \
       clang \
       cmake \
       ninja-build \
+      libboost-dev\
       rsync \
       tar \
       python \
