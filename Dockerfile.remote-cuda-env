@@ -19,7 +19,13 @@ RUN apt-get update \
       g++ \
       gdb \
       clang \
+      make \
+      ninja-build \
       cmake \
+      autoconf \
+      automake \
+      locales-all \
+      dos2unix \
       rsync \
       tar \
       python \

@@ -12,9 +12,14 @@ RUN apt-get update \
       gdb \
       clang \
       cmake \
+      make \
+      autoconf \
+      automake \
+      locales-all \
+      dos2unix \
       ninja-build \
-      libboost-dev\
-      qt5-default\
+      libboost-dev \
+      qt5-default \
       rsync \
       tar \
       python \
